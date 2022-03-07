@@ -1,6 +1,6 @@
 {
-    "foo" : [
-       {"name": "XYZ", "address": "54.7168,94.0215", "country_of_residence": "PQR", "countries": "LMN;PQRST", "date": "28-AUG-2008", "type": null},
-       {"name": "OLMS", "address": null, "country_of_residence": null, "countries": "Not identified;No", "date": "23-FEB-2017", "type": null}
+    "main" : [
+       "accounts": {},
+       "computers": {}
     ]
 }
