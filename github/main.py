@@ -1,4 +1,5 @@
-import time 
+import time
+from turtle import update 
 from bs4 import BeautifulSoup
 from selenium import *
 import pywifi
@@ -77,7 +78,7 @@ def addData() -> None:
 def update_datas():
     global JSON_DATA
     adaptor, network, ip, host = getNetworkName()
-    JSON_DATA[host] = {'adaptor': adaptor, 'network': network, 'ip': ip, 'host': host}
-    return JSON_DATA
+    JSON_DATA['computers'][host] = {'adaptor': adaptor, 'network': network, 'ip': ip, 'host': host}
+    return json.dumps(JSON_DATA)
 
 addData()
