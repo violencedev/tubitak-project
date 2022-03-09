@@ -1,20 +1,39 @@
-import requests 
+import time 
 from bs4 import BeautifulSoup
 from selenium import *
-import os 
-import time 
+import pywifi
+import requests 
+import socket
+import json
+import os
 
 username = 'violencedev'
 password = 'furkan2005F'
 
 
-def getData() -> None:
+
+def getNetworkName(): 
+    wifi = pywifi.PyWiFi()
+    Iface = wifi.interfaces()[0]
+    Name = Iface.name()
+    Iface.scan()
+    results = Iface.scan_results()
+    while len(results) == 0:
+        results = Iface.scan_results()
+    nwName = results[0].ssid
+    host = socket.gethostname()
+    local_ip = socket.gethostbyname(host)
+    return Name, nwName, local_ip, host 
+
+def getData():
     request = requests.get('https://github.com/violencedev/tubitak-project/blob/main/main.json', 'html.parser', verify=False)
     soup = BeautifulSoup(request.text)
     tablebody = soup.find('tr')
     tabledatas = tablebody.find_all('td')
     jsonFILE = tabledatas[-1].text
-    print(jsonFILE)
+    return jsonFILE
+
+JSON_DATA = json.loads(getData())
 
 def addData() -> None:
     from selenium import webdriver
@@ -47,7 +66,7 @@ def addData() -> None:
     input_ = browser.find_element_by_xpath('//*[@id="code-editor"]/div[1]/pre/span')
     body.send_keys(Keys.TAB)
     input_.send_keys(Keys.CONTROL + 'a')
-    input_.send_keys(Keys.DELETE + 'aaa')
+    input_.send_keys(Keys.DELETE + update_datas())
     time.sleep(2)
 
     commitBtn = browser.find_element_by_xpath('//*[@id="submit-file"]')
@@ -55,4 +74,10 @@ def addData() -> None:
 
     browser.get('https://github.com/violencedev/tubitak-project/blob/main/main.json')
     time.sleep(5)
+def update_datas():
+    global JSON_DATA
+    adaptor, network, ip, host = getNetworkName()
+    JSON_DATA[host] = {'adaptor': adaptor, 'network': network, 'ip': ip, 'host': host}
+    return JSON_DATA
+
 addData()
