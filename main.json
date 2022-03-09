@@ -1,10 +1,1 @@
-{
-  "accounts": {},
-  "computers": {},
-  "Lab21pc": {
-    "adaptor": "Intel(R) Dual Band Wireless-AC 3165",
-    "network": "f@tih",
-    "ip": "192.168.23.230",
-    "host": "Lab21pc"
-  }
-}
+{"accounts": {},"computers": {}}
